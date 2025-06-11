@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: ./helm
-      reconcileStrategy: Revision
+      reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository
         name: kbot
