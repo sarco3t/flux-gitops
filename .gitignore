@@ -32,3 +32,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 kind-cluster-config
+age.key
