@@ -13,3 +13,7 @@ spec:
         kind: GitRepository
         name: kbot
   interval: 1m0s
+  values:
+    container:
+      command: ["kbot"]
+      args: ["start"]
