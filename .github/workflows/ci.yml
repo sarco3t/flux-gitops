@@ -31,10 +31,8 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Set up SOPS
-        uses: crazy-max/ghaction-setup-sops@v2
-        with:
-          version: 'latest'
+      - name: Setup SOPS
+        uses: nhedger/setup-sops@v2
 
       - name: Fetch age.key from GCP Secret Manager
         run: |
