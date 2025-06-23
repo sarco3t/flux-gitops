@@ -1,6 +1,9 @@
 name: Generate & Encrypt TELE_TOKEN + API_VERSION
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
