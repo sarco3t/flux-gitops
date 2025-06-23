@@ -1,0 +1,77 @@
+name: Generate & Encrypt TELE_TOKEN + API_VERSION
+
+on:
+  workflow_dispatch:
+
+jobs:
+  encrypt-secret:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ☁️ Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl gnupg kubectl
+          curl -Lo sops https://github.com/getsops/sops/releases/latest/download/sops-linux-amd64
+          chmod +x sops
+          sudo mv sops /usr/local/bin
+
+      - name: Fetch age.key from GCP Secret Manager
+        run: |
+          mkdir -p ~/.config/sops/age
+          gcloud secrets versions access latest --secret=AGE_KEY > ~/.config/sops/age/keys.txt
+
+      - name: Fetch TELE_TOKEN and API_VERSION from GCP
+        run: |
+          TELE_TOKEN=$(gcloud secrets versions access latest --secret=TELE_TOKEN)
+          API_VERSION=$(gcloud secrets versions access latest --secret=API_VERSION)
+          mkdir -p tmp clusters/demo
+          kubectl create secret generic tele-token \
+            --from-literal=token=$TELE_TOKEN \
+            --from-literal=api_version=$API_VERSION \
+            --dry-run=client -o yaml > tmp/new_secret.yml
+
+      - name: Decrypt existing secret if present
+        id: check
+        run: |
+          if [ -f clusters/demo/secret.yml ]; then
+            sops -d clusters/demo/secret.yml > tmp/existing_secret.yml
+          else
+            touch tmp/existing_secret.yml
+          fi
+
+          if cmp -s tmp/existing_secret.yml tmp/new_secret.yml; then
+            echo "No change in secret"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Secret changed"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Replace and encrypt secret
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          cp tmp/new_secret.yml clusters/demo/secret.yml
+          sops -e --in-place clusters/demo/secret.yml
+
+      - name: Commit updated encrypted secret
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add clusters/demo/secret.yml
+          git commit -m "Update encrypted TELE_TOKEN and API_VERSION secret"
+          git push
