@@ -44,7 +44,7 @@ jobs:
           TELE_TOKEN=$(gcloud secrets versions access latest --secret=TELE_TOKEN)
           API_VERSION=$(gcloud secrets versions access latest --secret=API_VERSION)
           mkdir -p tmp clusters/demo
-          kubectl create secret generic tele-token \
+          kubectl create secret generic kbot \
             --from-literal=token=$TELE_TOKEN \
             --from-literal=api_version=$API_VERSION \
             --dry-run=client -o yaml > tmp/new_secret.yml
