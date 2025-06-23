@@ -17,20 +17,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: ☁️ Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-          # service_account: 
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl gnupg kubectl
-          curl -Lo sops https://github.com/getsops/sops/releases/latest/download/sops-linux-amd64
-          chmod +x sops
-          sudo mv sops /usr/local/bin
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Set up SOPS
+        uses: crazy-max/ghaction-setup-sops@v2
+        with:
+          version: 'latest'
 
       - name: Fetch age.key from GCP Secret Manager
         run: |
