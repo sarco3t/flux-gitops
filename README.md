@@ -12,3 +12,19 @@ The cluster deploys the `kbot` application (see `clusters/demo/kbot-hr.yml`) alo
 - Grafana
 
 Helm repositories and releases for these tools are defined under `clusters/demo/otel/`.
+
+## Testing the manifests
+
+If you have `kustomize` installed, you can render all manifests for the demo cluster with:
+
+```bash
+kustomize build clusters/demo
+```
+
+To apply the changes to a cluster managed by Flux, run:
+
+```bash
+flux reconcile kustomization kbot --with-source
+```
+
+This triggers Flux to pull the latest manifests and deploy them.
