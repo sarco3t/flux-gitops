@@ -17,3 +17,20 @@ spec:
     container:
       command: ["kbot"]
       args: ["start"]
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - |
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: kbot
+              namespace: demo
+            spec:
+              template:
+                spec:
+                  containers:
+                    - name: kbot
+                      env:
+                        - name: METRICS_HOST
+                          value: collector.demo.svc.cluster.local:4317
