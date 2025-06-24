@@ -14,3 +14,8 @@ spec:
         name: opentelemetry
         namespace: demo
       interval: 1m
+  values:
+    admissionWebhooks:
+      enabled: false
+    certManager:
+      enabled: false

@@ -14,3 +14,17 @@ spec:
         name: grafana
         namespace: demo
       interval: 1m
+  values:
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus.demo.svc.cluster.local
+            access: proxy
+            isDefault: true
+          - name: Loki
+            type: loki
+            url: http://loki.demo.svc.cluster.local:3100
+            access: proxy
