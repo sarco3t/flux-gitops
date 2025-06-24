@@ -16,3 +16,7 @@ spec:
   values:
     mode: deployment
     fullnameOverride: collector
+    image:
+      repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s
+    command:
+      name: otelcol-k8s
