@@ -5,6 +5,7 @@ metadata:
   name: kbot
   namespace: demo
 spec:
+  revisionHistoryLimit: 4
   chart:
     spec:
       chart: ./helm
