@@ -19,18 +19,13 @@ spec:
       args: ["start"]
   postRenderers:
     - kustomize:
-        patchesStrategicMerge:
-          - |
-            apiVersion: apps/v1
-            kind: Deployment
-            metadata:
+        patches:
+          - target:
+              kind: Deployment
               name: kbot
-              namespace: demo
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: kbot
-                      env:
-                        - name: METRICS_HOST
-                          value: collector.demo.svc.cluster.local:4317
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: METRICS_HOST
+                  value: collector.demo.svc.cluster.local:4317
