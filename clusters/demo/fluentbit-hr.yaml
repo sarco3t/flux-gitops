@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fluent-bit
+  namespace: demo
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: fluent-bit
+      version: "0.45.0"
+      sourceRef:
+        kind: HelmRepository
+        name: fluent
+        namespace: demo
+      interval: 1m
