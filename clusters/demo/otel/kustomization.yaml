@@ -5,3 +5,8 @@ resources:
   - fluent-bit-hr.yml
   - otel-repo.yml
   - otel-collector-hr.yml
+  - grafana-repo.yml
+  - grafana-hr.yml
+  - prometheus-repo.yml
+  - prometheus-hr.yml
+  - loki-hr.yml
