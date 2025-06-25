@@ -12,6 +12,7 @@ The cluster deploys the `kbot` application (see `clusters/demo/kbot-hr.yml`) alo
 - Grafana
 
 Helm repositories and releases for these tools are defined under `clusters/demo/otel/`.
+Additional Helm releases for Loki, Prometheus and Grafana live in the same directory.
 The `clusters/demo` directory now includes a `kustomization.yaml` that pulls in
 all manifests from this `otel` folder so they are part of the cluster build.
 
