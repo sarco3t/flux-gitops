@@ -18,40 +18,32 @@ spec:
 
     loki:
       auth_enabled: false
-
-      server:
-        http_listen_port: 3100
-        grpc_listen_port: 9096
-
-      common:
+      isDefaultConfig: false
+      schemaConfig:
+          configs:
+            - from: "2020-10-24"
+              store: boltdb-shipper
+              object_store: filesystem
+              schema: v11
+              index:
+                prefix: index_
+                period: 24h
+      commonConfig:
         instance_addr: 0.0.0.0
         path_prefix: /var/loki
         replication_factor: 1
         ring:
           kvstore:
             store: inmemory
-        storage:
-          filesystem:
-            chunks_directory: /var/loki/chunks
-            rules_directory: /var/loki/rules
-
+      server:
+        http_listen_port: 3100
+        grpc_listen_port: 9096
       query_range:
         results_cache:
           cache:
             embedded_cache:
               enabled: true
               max_size_mb: 100
-
-      schema_config:
-        configs:
-          - from: "2020-10-24"
-            store: boltdb-shipper
-            object_store: filesystem
-            schema: v11
-            index:
-              prefix: index_
-              period: 24h
-
       storage_config:
         boltdb_shipper:
           active_index_directory: /var/loki/index
@@ -66,9 +58,9 @@ spec:
       analytics:
         reporting_enabled: false
 
-    persistence:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 10Gi
-      storageClassName: standard
+    # persistence:
+    #   enabled: true
+    #   accessModes:
+    #     - ReadWriteOnce
+    #   size: 10Gi
+    #   storageClassName: standard
