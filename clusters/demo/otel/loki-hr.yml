@@ -18,7 +18,7 @@ spec:
 
     loki:
       isDefaultConfig: false
-      config: |
+      config:
         auth_enabled: false
 
         server:
