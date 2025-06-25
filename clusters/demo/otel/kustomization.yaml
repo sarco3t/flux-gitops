@@ -9,4 +9,4 @@ resources:
   - grafana-hr.yml
   - prometheus-repo.yml
   - prometheus-hr.yml
-  - loki-hr.yml
+  # - loki-hr.yml
