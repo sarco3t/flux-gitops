@@ -16,12 +16,21 @@ spec:
   values:
     fullnameOverride: loki
 
-    deploymentMode: SimpleScalable
+    deploymentMode: SingleBinary
+
+    singleBinary:
+      replicas: 1
+      persistence:
+        enabled: true
+        accessModes:
+          - ReadWriteOnce
+        size: 10Gi
+        storageClassName: standard
 
     loki:
       schemaConfig:
         configs:
-          - from: 2024-04-01
+          - from: "2024-04-01"
             store: boltdb-shipper
             object_store: filesystem
             schema: v11
@@ -41,43 +50,15 @@ spec:
         chunk_encoding: snappy
 
       tracing:
-        enabled: true
+        enabled: false  # Can enable if using OpenTelemetry
 
       querier:
         max_concurrent: 4
 
+    # Optional: reduce other components to 0 for clarity
     backend:
-      replicas: 1
+      replicas: 0
     read:
-      replicas: 1
+      replicas: 0
     write:
-      replicas: 1
-
-    persistence:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 10Gi
-      storageClassName: standard  # Change if needed
-
-    # Disable all other deployment modes
-    singleBinary:
-      replicas: 0
-    ingester:
-      replicas: 0
-    querier:
-      replicas: 0
-    queryFrontend:
-      replicas: 0
-    queryScheduler:
-      replicas: 0
-    distributor:
-      replicas: 0
-    compactor:
-      replicas: 0
-    indexGateway:
-      replicas: 0
-    bloomCompactor:
-      replicas: 0
-    bloomGateway:
       replicas: 0
