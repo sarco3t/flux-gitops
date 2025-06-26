@@ -22,6 +22,11 @@ spec:
       enabled: true
 
     config:
+      service: |
+        [SERVICE]
+          flush 1
+          log_level error
+
       inputs: |
         [INPUT]
             Name              tail
@@ -45,8 +50,10 @@ spec:
             Name opentelemetry
             Match *
             Host collector.demo.svc.cluster.local
-            Port 4317
-            Mode grpc
+            Metrics_uri          /v1/metrics
+            Logs_uri             /v1/logs
+            Traces_uri           /v1/traces
+            Port 3030
             add_label app fluent-bit
             add_label color blue
       filters: |

@@ -31,8 +31,9 @@ spec:
         debug:
           verbosity: normal
         loki:
-          endpoint: http://loki:3100/loki/api/v1/push
-          format: json
+          endpoint: http://loki:3100/loki/otlp
+            tls:
+              insecure: true
         prometheus:
           endpoint: "0.0.0.0:8889"
 
