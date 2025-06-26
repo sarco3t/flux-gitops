@@ -53,7 +53,7 @@ spec:
             Metrics_uri          /v1/metrics
             Logs_uri             /v1/logs
             Traces_uri           /v1/traces
-            Port 4317
+            Port 4318
             add_label app fluent-bit
             add_label color blue
       filters: |
