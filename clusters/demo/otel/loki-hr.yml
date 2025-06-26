@@ -17,6 +17,13 @@ spec:
     fullnameOverride: loki
     mode: "singleBinary"  # ← REQUIRED
     loki:
+      memberlist:
+        join_members: []
+      results_cache:
+        enabled: false
+      ring:
+        kvstore:
+          store: inmemory
       auth_enabled: false
       commonConfig:
         replication_factor: 1
