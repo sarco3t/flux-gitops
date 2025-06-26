@@ -15,15 +15,12 @@ spec:
         namespace: demo
   values:
     fullnameOverride: loki
-    mode: "singleBinary"  # ← REQUIRED
+    mode: "singleBinary"
     loki:
       memberlist:
         join_members: []
       results_cache:
         enabled: false
-      ring:
-        kvstore:
-          store: inmemory
       auth_enabled: false
       commonConfig:
         replication_factor: 1
@@ -48,3 +45,15 @@ spec:
       enabled: true
     serviceMonitor:
       enabled: true
+    querier:
+      replicas: 0
+    queryFrontend:
+      replicas: 0
+    distributor:
+      replicas: 0
+    ingester:
+      replicas: 0
+    ruler:
+      enabled: false
+    compactor:
+      enabled: false
