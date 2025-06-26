@@ -21,38 +21,40 @@ spec:
     daemonSet:
       enabled: true
 
-    inputs: |
-      [INPUT]
-          Name              tail
-          Tag               kube.*
-          Path              /var/log/containers/*.log
-          Parser            docker
-          DB                /var/log/flb_kube.db
-          Mem_Buf_Limit     50MB
-          Skip_Long_Lines   On
-          Refresh_Interval  10
+    config:
+      inputs: |
+        [INPUT]
+            Name              tail
+            Tag               kube.*
+            Path              /var/log/containers/*.log
+            Parser            docker
+            DB                /var/log/flb_kube.db
+            Mem_Buf_Limit     50MB
+            Skip_Long_Lines   On
+            Refresh_Interval  10
 
-    customParsers: |
-      [PARSER]
-          Name   docker
-          Format json
-          Time_Key time
-          Time_Format %Y-%m-%dT%H:%M:%S.%L
+      customParsers: |
+        [PARSER]
+            Name   docker
+            Format json
+            Time_Key time
+            Time_Format %Y-%m-%dT%H:%M:%S.%L
 
-    outputs: |
-      [OUTPUT]
-          Name opentelemetry
-          Match *
-          Host collector.demo.svc.cluster.local
-          Port 4317
-          Mode grpc
-          add_label app fluent-bit
-          add_label color blue
-    filters: |
-      [FILTER]
-          Name kubernetes
-          Match kube.*
-          Merge_Log On
-          Keep_Log Off
-          K8S-Logging.Parser On
-          K8S-Logging.Exclude On
+      outputs: |
+        [OUTPUT]
+            Name opentelemetry
+            Match *
+            Host collector.demo.svc.cluster.local
+            Port 4317
+            Mode grpc
+            add_label app fluent-bit
+            add_label color blue
+      filters: |
+        [FILTER]
+            Name kubernetes
+            Match kube.*
+            Merge_Log On
+            Keep_Log Off
+            K8S-Logging.Parser On
+            K8S-Logging.Exclude On
+    

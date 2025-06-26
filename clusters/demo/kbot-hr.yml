@@ -17,15 +17,6 @@ spec:
     container:
       command: ["kbot"]
       args: ["start"]
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: kbot
-            patch: |
-              - op: add
-                path: /spec/template/spec/containers/0/env/-
-                value:
-                  name: METRICS_HOST
-                  value: collector.demo.svc.cluster.local:4317
+    env:
+      - name: "METRICS_HOST"
+        value: "collector.demo.svc.cluster.local:4317"
