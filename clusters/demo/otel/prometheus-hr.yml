@@ -16,10 +16,6 @@ spec:
     fullnameOverride: prometheus
     serverFiles:
       prometheus.yml:
-        global:
-          scrape_interval: 15s
-          evaluation_interval: 15s
-
         scrape_configs:
           - job_name: otel_collector
             scrape_interval: 5s
