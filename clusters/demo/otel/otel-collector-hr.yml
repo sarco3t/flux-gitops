@@ -29,8 +29,8 @@ spec:
       exporters:
         debug:
           verbosity: normal
-        loki:
-          endpoint: http://loki-gateway.demo.svc.cluster.local/loki/otlp
+        otlphttp/logs:
+          endpoint: "http://loki-gateway.demo.svc.cluster.local/otlp"
           tls:
             insecure: true
         prometheus:
