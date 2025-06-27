@@ -16,9 +16,9 @@ spec:
   values:
     mode: deployment
     fullnameOverride: collector
-    ports:
-      metrics:
-        enabled: true
+    # ports:
+    #   metrics:
+    #     enabled: true
     image:
       repository: otel/opentelemetry-collector-contrib
       tag: 0.128.0
@@ -37,7 +37,6 @@ spec:
           tls:
             insecure: true
         prometheus:
-          endpoint: "0.0.0.0:8888"
 
       service:
         pipelines:
