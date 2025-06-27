@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: collector
+  namespace: demo
+spec:
+  ports:
+    - name: prometheus-exporter
+      port: 8889
+      targetPort: 8889
+      protocol: TCP
