@@ -10,3 +10,4 @@ resources:
   - prometheus-repo.yml
   - prometheus-hr.yml
   - loki-hr.yml
+  - otel-service-patch.yml

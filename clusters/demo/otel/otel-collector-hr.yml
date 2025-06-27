@@ -16,9 +16,9 @@ spec:
   values:
     mode: deployment
     fullnameOverride: collector
-    # ports:
-    #   metrics:
-    #     enabled: true
+    ports:
+      metrics:
+        enabled: true
     image:
       repository: otel/opentelemetry-collector-contrib
       tag: 0.128.0
@@ -31,13 +31,13 @@ spec:
 
       exporters:
         debug:
-          verbosity: normal
+          verbosity: detailed
         otlphttp/logs:
           endpoint: "http://loki-gateway.demo.svc.cluster.local/otlp"
           tls:
             insecure: true
         prometheus:
-          endpoint: "0.0.0.0:8888"
+          endpoint: "0.0.0.0:8889"
 
       service:
         pipelines:
