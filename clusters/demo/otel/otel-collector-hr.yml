@@ -30,7 +30,7 @@ spec:
         debug:
           verbosity: normal
         otlphttp/logs:
-          endpoint: "http://loki:3100/otlp"
+          endpoint: "http://loki-gateway.demo.svc.cluster.local/otlp"
           tls:
             insecure: true
         prometheus:
