@@ -14,3 +14,18 @@ spec:
         namespace: demo
   values:
     fullnameOverride: prometheus
+    serverFiles:
+      prometheus.yml:
+        global:
+          scrape_interval: 15s
+          evaluation_interval: 15s
+
+        scrape_configs:
+          - job_name: otel_collector
+            scrape_interval: 5s
+            static_configs:
+              - targets: ['collector.demo.svc.cluster.local:8888']
+
+          - job_name: prometheus
+            static_configs:
+              - targets: ['localhost:9090']
