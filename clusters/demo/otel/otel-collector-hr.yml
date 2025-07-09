@@ -31,7 +31,7 @@ spec:
 
       exporters:
         debug:
-          verbosity: detailed
+          verbosity: normal
         otlphttp/logs:
           endpoint: "http://loki-gateway.demo.svc.cluster.local/otlp"
           tls:
