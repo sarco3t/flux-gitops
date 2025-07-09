@@ -27,3 +27,7 @@ spec:
             type: loki
             url: http://loki-gateway.demo.svc.cluster.local
             access: proxy
+          - name: Jaeger
+            type: jaeger
+            access: proxy
+            url: http://jaeger-query.demo.svc.cluster.local:16686
