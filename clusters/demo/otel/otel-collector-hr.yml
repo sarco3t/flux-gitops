@@ -38,10 +38,8 @@ spec:
             insecure: true
         prometheus:
           endpoint: "0.0.0.0:8889"
-        jaeger:
-          endpoint: "http://jaeger-collector.demo.svc.cluster.local:14250"
-          tls:
-            insecure: true
+        zipkin:
+          endpoint: "http://jaeger-collector.demo.svc.cluster.local:9411/api/v2/spans"
       service:
         pipelines:
           logs:
@@ -49,7 +47,7 @@ spec:
             exporters: [debug, otlphttp/logs]
           traces:
             receivers: [otlp]
-            exporters: [debug, jaeger]
+            exporters: [debug, zipkin]
           metrics:
             receivers: [otlp]
             exporters: [debug, prometheus]
