@@ -11,3 +11,5 @@ resources:
   - prometheus-hr.yml
   - loki-hr.yml
   - otel-service-patch.yml
+  - jaeger-helm-repo.yml
+  - jaeger-hr.yml
