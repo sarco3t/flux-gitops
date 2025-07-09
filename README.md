@@ -1,33 +1,40 @@
 # flux-gitops
 
-This repository contains Flux manifests for the demo Kubernetes cluster.
+This repository contains Flux manifests and Terraform modules for a demo Kubernetes cluster.
 
-The cluster deploys the `kbot` application (see `clusters/demo/kbot-hr.yml`) alongside a monitoring stack consisting of:
+**[▶️ Watch demonstration video](media/video.mp4)**
 
-- OpenTelemetry Operator
-- OpenTelemetry Collector
-- Fluent Bit (forwarding logs to the collector)
-- Prometheus
-- Grafana Loki
-- Grafana
+## Features
+- GitOps deployment with Flux
+- `kbot` application (see `clusters/demo/kbot-hr.yml`)
+- Monitoring stack: OpenTelemetry, Fluent Bit, Prometheus, Grafana Loki, Grafana
 
-Helm repositories and releases for these tools are defined under `clusters/demo/otel/`.
-Additional Helm releases for Loki, Prometheus and Grafana live in the same directory.
-The `clusters/demo` directory now includes a `kustomization.yaml` that pulls in
-all manifests from this `otel` folder so they are part of the cluster build.
+## Directory Structure
+- `bootstrap/` – Terraform modules for cluster & Flux bootstrap
+- `clusters/` – Flux manifests and kustomizations
+- `media/` – Demo video
 
-## Testing the manifests
+## Prerequisites
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/)
+- [flux](https://fluxcd.io/docs/installation/)
+- [terraform](https://www.terraform.io/downloads.html)
+- [sops](https://github.com/mozilla/sops) & `age.key` for secrets
 
-If you have `kustomize` installed, you can render all manifests for the demo cluster with:
+## Quick Start
+1. **Bootstrap cluster & Flux:**
+   ```bash
+   cd bootstrap
+   terraform init && terraform apply
+   ```
+2. **Render manifests:**
+   ```bash
+   kustomize build ../clusters/demo
+   ```
+3. **Trigger Flux deployment:**
+   ```bash
+   flux reconcile kustomization kbot --with-source
+   ```
 
-```bash
-kustomize build clusters/demo
-```
-
-To apply the changes to a cluster managed by Flux, run:
-
-```bash
-flux reconcile kustomization kbot --with-source
-```
-
-This triggers Flux to pull the latest manifests and deploy them.
+## Secrets
+Secrets (e.g., TELE_TOKEN, API_VERSION) are encrypted with SOPS (`clusters/demo/secret.yml`). You need `age.key` to decrypt or update them.
