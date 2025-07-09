@@ -39,7 +39,7 @@ spec:
         prometheus:
           endpoint: "0.0.0.0:8889"
         jaeger:
-          endpoint: "jaeger:14250"
+          endpoint: "http://jaeger-collector.demo.svc.cluster.local:14250"
           tls:
             insecure: true
       service:
